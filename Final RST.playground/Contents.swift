@@ -1,4 +1,4 @@
-// Created on: 12-Nov-2018
+// Created on: Dec-2018
 // Created by: Natalie Beshara
 // Created for: ICS3U
 // This program find the roots of a parabola
@@ -21,6 +21,16 @@ class ViewController : UIViewController {
     let thirdNumberTextField = UITextField()
     let calculateButton = UIButton ()
     let answerLabel = UILabel()
+    
+    func isItAnInt (a : String) -> Bool{
+        // got this code from this website: https://rosettacode.org/wiki/Determine_if_a_string_is_numeric#Swift
+        
+        return Double(a) != nil
+    }
+    
+    func convertToDouble (toDouble : String) -> Double{
+        return Double(toDouble)!
+    }
     
     func findingRoots(coefficantA : Float, coefficantB : Float, coefficantC : Float) -> [Double] {
         //  
@@ -140,20 +150,41 @@ class ViewController : UIViewController {
     @objc func calculatingAnswer() {
         //  
         
-        var firstCoefficent : String 
-        var secondCoefficent : String 
-        var thirdCoefficant : String 
-        firstCoefficent = (firstNumberTextField.text!)
-        secondCoefficent = (secondNumberTextField.text!)
-        thirdCoefficant = (thirdNumberTextField.text!)
+        var firstCoefficent : String = (firstNumberTextField.text!)
+        var secondCoefficent : String = (secondNumberTextField.text!)
+        var thirdCoefficent : String = (thirdNumberTextField.text!)
+        //
+        
+        // 
+        var coefficent1 = isItAnInt(a: String(firstCoefficent))
+        
+        var coefficent2 = isItAnInt(a: String(secondCoefficent))
+        
+        var coefficent3 = isItAnInt(a : String(thirdCoefficent))
         
         
-        var answer = findingRoots(coefficantA: Float(firstCoefficent)!, coefficantB: Float(secondCoefficent)!, coefficantC: Float(thirdCoefficant)!)
-        
-        for answerArray in 1...2 {
-            answerLabel.text = "The roots are \(answer)" 
+        if coefficent1 == false  || coefficent2 == false || coefficent3 == false {
+            answerLabel.text = "You need to enter a valid number."
         }
-        //answerLabel.text = "The root is \(answer)" 
+        else {
+            
+            var firstCoefficent = convertToDouble(toDouble: String(firstCoefficent))
+            var secondCoefficent = convertToDouble(toDouble: String(secondCoefficent))
+            var thirdCoefficent = convertToDouble(toDouble: String(thirdCoefficent))
+            
+            if (pow(secondCoefficent,2) - 4 * firstCoefficent * thirdCoefficent) < 0{
+                
+                answerLabel.text = "There are no x-intercepts"
+            }
+            else {
+                var answer = findingRoots(coefficantA: Float(firstCoefficent), coefficantB: Float(secondCoefficent), coefficantC: Float(thirdCoefficent))
+                
+                
+                answerLabel.text = "The roots are \(answer)"
+                
+            }
+        }
+        
     }
     override var prefersStatusBarHidden: Bool {
         return true
